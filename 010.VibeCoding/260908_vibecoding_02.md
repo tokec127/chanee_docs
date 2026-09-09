@@ -41,5 +41,4 @@
     - BRD(Business Requirement Document) 작성
 
 
-> DRD -> BRD -> PRD -> 
-
+> 260909_vibecoding_01.md에 이어서....
