@@ -93,3 +93,81 @@
 
 * 다국어 처리
 
+* Backend/Frontend/DB
+    - framework: library, component 등으로 구성된 
+    - backend
+        - 전자정부: Java spring/spring boot
+        - 실습: Express/NestJS (배포환경 고려)
+
+* API
+    - RESTful API
+        - API 정의하는 형식이 swagger
+    - GraphQL
+    - SOAP
+
+
+* 3-tier 앱
+    - 단일 애플리케이션: 통신 필요없이 바로 실행가능한 앱 (GUI + Logic + DATA)
+        - 사용할 대상에 설치가 필요
+        - 변경시 패치가 필요
+    - 2-tier App.
+        - 서버 + 클라이언트(GUI + 로직)
+        - 클라이언트 수정사항이 있다면 역시 패치가 필요
+    - 3-tier App.
+        - GUI
+        - 
+
+* frontend 배포
+    1. 아래처럼 빌드한다.
+    2. 빌드결과물을 frontend 호스팅 서버에 올려둔다.
+    3. 사용자는 frontend 호스팅 서버에 올린 빌드결과를 실행한다.
+
+```
+ > npm run build
+
+  Ran 1 shell command
+
+빌드 성공 — tsc -b 타입 오류 0, Vite 프로덕션 빌드 227ms.
+
+┌─────────────────────────┬───────────┬───────────┐
+│         산출물          │   크기    │   gzip    │
+├─────────────────────────┼───────────┼───────────┤
+│ dist/index.html         │ 0.45 kB   │ 0.29 kB   │
+├─────────────────────────┼───────────┼───────────┤
+│ dist/assets/index-*.css │ 18.52 kB  │ 3.94 kB   │
+├─────────────────────────┼───────────┼───────────┤
+│ dist/assets/index-*.js  │ 328.41 kB │ 100.58 kB │
+└─────────────────────────┴───────────┴───────────┘
+
+모듈 150개 변환, 경고 없음. JS 100 kB(gzip)는 React 19 + TanStack Query + Router + Zustand를 포함한 값이고, 다국어 사전(3개 언어)과 테마 토큰도 함께 들어 있습니다.
+```
+
+
+* "애플리케이션 아키텍처 소개"
+    - p.6
+        - 읽기에는 "cache" 서버를 주로 둔다.
+        - 쓰기에는 비동기 처리를 위해 "Message queue"를 둔다.
+        - DB는 Master/Slave 방식으로 운용하고, 쓰기는 Master에서만 수행한다. Master에서 쓰기 수행하면 자동으로 Slave에 반영한다.
+        - 프론트엔드/백엔드 서비스 앞단에 LB(Load Balancer)를 두어 부하를 분산한다.
+
+
+
+* JWT 인증흐름
+    - ID/PW로 사용자 인증방식
+        - ID/PW로 인증된 사용자에 임시 Secret token을 발행
+        - JWT(Jason Web Token)을 secret으로 사용하는데 Base-64로 인코딩 (binary을 text형태로 변환하는 알고리즘)
+
+
+* CORS: Cross-Origin Resource Sharing
+    - 웹 브라우저에서 실행되는 Frontend가 다른 출처(origin)의 Backend API에 접근할 수 있는지를 서버가 허용하는 보안 메커니즘
+    - ORIGIN: 사용자 화면에서 보여주는 HTML 페이지를 제공하는 서버의 정보 (IP, Port)  
+    - Cross-Origin:
+    - Same-Origin:
+    - CORS
+        - Cross-Origin에서는 Origin이 다르면 통신 차단
+        - 서비스를 제공하기 위해 backend가 허용해줘야 함
+        - backend에 허용할 orgin을 등록해줘야 함 (@ backend/.env에 CORS_ORIGIN)
+
+
+* Social Auth
+    - SNS 인증으로 사용자 인증을 대체
